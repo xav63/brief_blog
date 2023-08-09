@@ -7,7 +7,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
-use App\Http\Requests\StorePostRequest;
 
 class PostController extends Controller
 {
@@ -22,44 +21,22 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-        return view('posts.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request):RedirectResponse
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:255',
-            'picture' => 'required|image'
+
+            'message' => 'required|string|max:255',
+
         ]);
 
-         $validated = [
-            'title' => $request->title,
-            'content' => $request->content,
-            'picture' => $request->picture->store('posts'),
-            'user_id' => auth()->id()
-         ];
-         Post::create($validated);
+        $validated['user_id'] = auth()->id();
+        $validated['post_id'] = $request->post;
 
- 
-        return redirect(route('posts.index'));
-    }
+        $request->user()->posts()->create($validated);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        $post = Post::with(['comments.user', 'user'])->find($post->id);
-        return view('posts.show', compact('post'));
+        return redirect(route('posts.show', $request->post->id));
     }
 
     /**
@@ -99,3 +76,4 @@ class PostController extends Controller
         return redirect(route('posts.index'));
     }
 }
+
