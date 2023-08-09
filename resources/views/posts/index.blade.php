@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h1 class="font-semibold text-xl text-gray-800 leading-tight text-center">
           Les articles
         </h1>
       </x-slot>
@@ -55,7 +55,7 @@
                         </div>
                         <p class="leading-relaxed mb-3">{{ $post->content }}</p>
                         <div class="flex items-center flex-wrap ">
-                            <a href="{{route('posts.show', $post)}}" target="_blank" class="bg-gradient-to-r from-cyan-400 to-blue-400 hover:scale-105 drop-shadow-md  shadow-cla-blue px-4 py-1 rounded-lg">En savoir plus</a>
+                            <a href="{{route('posts.show', $post)}}" class="bg-gradient-to-r from-cyan-400 to-blue-400 hover:scale-105 drop-shadow-md  shadow-cla-blue px-4 py-1 rounded-lg">En savoir plus</a>
                         </div>
                     </div>
                 </div>

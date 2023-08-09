@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
-class PostController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +18,9 @@ class PostController extends Controller
     {
         return view('posts.index', [
             'posts' => Post::with('user')->latest()->get(),
+            'comments' => Comment::with('user')->latest()->get(),
         ]);
+
     }
 
     /**
@@ -25,19 +28,16 @@ class PostController extends Controller
      */
     public function store(Request $request):RedirectResponse
     {
-        dd($request->post);
         $validated = $request->validate([
-
             'message' => 'required|string|max:255',
-
         ]);
 
         $validated['user_id'] = auth()->id();
         $validated['post_id'] = $request->post;
 
-        $request->user()->posts()->create($validated);
+        $request->user()->comments()->create($validated);
 
-        return redirect(route('posts.show', $request->post->id));
+        return redirect()->back();
     }
 
     /**

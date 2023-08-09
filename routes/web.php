@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PostController;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +37,7 @@ Route::middleware('auth')->group(function () {
 Route::resource('posts', PostController::class)
     ->middleware(['auth', 'verified']);
 
-Route::resource('comment', PostController::class)
+Route::resource('comment', CommentController::class)
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

@@ -51,7 +51,7 @@
                             @endif
     </section>
 <div>
-      <form method="POST" action="{{ route('comment.store',['post'=>$post]) }}">
+      <form method="POST" action="{{ route('comment.store', ['post' => $post]) }}">
         @csrf
         <textarea
             name="message"
@@ -61,5 +61,11 @@
         <x-input-error :messages="$errors->get('message')" class="mt-2" />
         <x-primary-button class="bg-gradient-to-r from-cyan-400 to-blue-400 hover:scale-105 drop-shadow-md  shadow-cla-blue px-4 py-1 rounded-lg">{{ __('Publier') }}</x-primary-button>
     </form>
+    @foreach($post->comments as $comment)
+    <div>
+      <p>{{$comment->user->name}}</p>
+      <p>{{$comment->message}}</p>
+    </div>
+    @endforeach
 </div>
   </x-app-layout>
