@@ -4,13 +4,14 @@
           Les articles
         </h1>
       </x-slot>
-    
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        
+    <section class="text-gray-600 body-font bg-gradient-to-r from-indigo-50">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="-m-4">
+                <div class="p-4">
 
-        <div class="mt-6 bg-white shadow-sm rounded-lg divide-y flex flex-row">
+        <div class="h-full rounded-xl shadow-cla-blue bg-gradient-to-r from-indigo-50 to-blue-50 overflow-hidden">
             @foreach ($posts as $post)
-                <div class="p-6 flex space-x-2 m-10"> 
+                <div class="p-6 space-x-2 m-10"> 
                     
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
@@ -21,8 +22,8 @@
                                 @unless ($post->created_at->eq($post->updated_at))
                                     <small class="text-sm text-gray-600"> &middot; {{ __('edited') }}</small>
                                 @endunless
-                                <h2>{{ $post->title }}</h2>
-                                <img src="{{ asset('storage/'. $post->picture) }}" alt="image">
+                                <h2 class="title-font text-lg font-medium text-gray-600 mb-3" >{{ $post->title }}</h2>
+                                <img src="{{ asset('storage/'. $post->picture) }}" alt="image" class="lg:h-48 md:h-36">
                             </div>
                             @if ($post->user->is(auth()->user()))
                                 <x-dropdown>
@@ -50,23 +51,18 @@
                                     </x-slot>
                                 </x-dropdown>
                             @endif
-                            <a href="{{route('posts.show', $post)}}" target="_blank">En savoir plus</a>
                             
                         </div>
-                        <p class="mt-4 text-lg text-gray-900">{{ $post->content }}</p>
+                        <p class="leading-relaxed mb-3">{{ $post->content }}</p>
+                        <div class="flex items-center flex-wrap ">
+                            <a href="{{route('posts.show', $post)}}" target="_blank" class="bg-gradient-to-r from-cyan-400 to-blue-400 hover:scale-105 drop-shadow-md  shadow-cla-blue px-4 py-1 rounded-lg">En savoir plus</a>
+                        </div>
                     </div>
                 </div>
             @endforeach
+              </div>
+            </div>
         </div>
-        <form method="POST" action="{{ route('posts.store') }}">
-            @csrf
-            <textarea
-                name="comment"
-                placeholder="{{ __('Commentaires') }}"
-                class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('comment') }}</textarea>
-            <x-input-error :messages="$errors->get('message')" class="mt-2" />
-            <x-primary-button class="mt-4">{{ __('Publier') }}</x-primary-button>
-        </form>
     </div>
+</section>
 </x-app-layout>
