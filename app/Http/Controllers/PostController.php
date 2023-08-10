@@ -79,10 +79,19 @@ class PostController extends Controller
         $this->authorize('update', $post);
 
         $validated = $request->validate([
-
+            'title' => 'required|string|max:255',
             'content' => 'required|string|max:255',
-
+            'picture' => 'required|image'
         ]);
+
+         $validated = [
+            'title' => $request->title,
+            'content' => $request->content,
+            'picture' => $request->picture->store('posts'),
+            'user_id' => auth()->id()
+         ];
+
+        
 
         $post->update($validated);
 
