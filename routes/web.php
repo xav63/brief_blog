@@ -18,11 +18,16 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//  Route::get('/', function () {
+//      return view('welcome');
+//  });
 
-Route::get('/authors', [AuthorController::class, 'index']);
+Route::get('/', [PostController::class, 'index'])
+    ->name('posts.index');
+
+Route::get('/posts/{post}/show', [PostController::class, 'show'])
+    ->name('posts.show');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,7 +40,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('posts', PostController::class)
-    ->middleware(['auth', 'verified']);
+->only(['store', 'create', 'edit', 'update', 'destroy'])    
+->middleware(['auth', 'verified']);
 
 Route::resource('comment', CommentController::class)
     ->middleware(['auth', 'verified']);
